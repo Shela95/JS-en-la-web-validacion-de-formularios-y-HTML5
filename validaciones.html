@@ -1,0 +1,36 @@
+export function valida(input) {
+    //required data-tipo="nacimento
+    const tipoDeInput = input.dataset.tipo;
+    if (validadores[tipoDeInput]) {
+        validadores[tipoDeInput](input);
+    }
+}
+const validadores = {
+    // en registro usamos la palabra nacimiento ( required data-tipo="nacimento")
+    nacimiento: input => validarNacimiento(input)
+
+};
+
+
+//se crear función para recibir el input
+function validarNacimiento(input) {
+   let mensaje = ""
+    //acceder al valor de fecha, formato año, mes y dia
+    const fechaUsuario = new Date(input.value);
+    if (!mayorDeEdad(fechaUsuario)) {
+        mensaje = "Debes tener al menos 18 años de edad";
+    }
+    input.setCustomValidity(mensaje)
+}
+
+//verificar si es mayor de edad
+function mayorDeEdad(fecha) {
+    const fechaActual = new Date();
+    const diferenciaFechas = new Date(
+        fecha.getUTCFullYear() + 18,
+        fecha.getUTCMonth(),
+        fecha.getUTCDate()
+    )
+    return diferenciaFechas <= fechaActual;
+    
+}
